@@ -27,56 +27,53 @@ if !exists('g:tohebi_patterns')
   let g:tohebi_patterns = s:default_patterns
 endif
 
-
-" find the fallback globalrc
-if !exists('g:tohebi_globalrc')
-
+" get the home dir
 python << EOF
 import vim
 import os
 home = os.path.expanduser("~")
-globalrc = os.path.join(home, ".pylintrc")
-if os.path.isfile:
-    vim.command("let g:tohebi_globalrc = '%s'" % globalrc)
+vim.command("let s:home = '%s'" % home)
 EOF
-
-endif
 
 
 function! tohebi#getrc()
 
   " get the global rc if vim doesn't start in a project
   if s:project_root == ""
-    return g:tohebi_globalrc
+    return s:FindRcInDir(s:home)
   else
-    return s:getprojectrc()
+    return s:FindRcInDir(s:project_root)
   endif
 
 endfunction
 
-function! s:getprojectrc()
-python << EOF
+
+function! s:FindRcInDir(dir)
+
+python3 << EOF
 import vim
 import os
 import fnmatch
 
-root = vim.eval('s:project_root')
+dir = vim.eval('a:dir')
 patterns = vim.eval('g:tohebi_patterns')
 
 # find the first file in the project root dir that matches any of the specified patterns
 for pattern in patterns:
-    for file in os.listdir(root):
+    for file in os.listdir(dir):
         if fnmatch.fnmatch(file, pattern):
-            rc = os.path.join(root, file)
-            vim.command("let s:projectfile = '%s'" % rc)
+            rc = os.path.join(dir, file)
+            vim.command("let s:rc = '%s'" % rc)
             break
 EOF
 
-"fallback to the global if no file was found
-if exists('s:projectfile')
-  return s:projectfile
+
+if exists('s:rc') " try to return a config from this folder
+  return s:rc
+elseif a:dir !=# s:home " don't try to find the file in HOME if just looked for it
+  return s:FindRcInDir(s:home)
 else
-  return g:tohebi_globalrc
+  return ""
 endif
 
 endfunction
