@@ -1,4 +1,5 @@
-A vim plugin that discovers pylintrc files.
+A vim plugin that finds per-project configuration files.
 
-Requires [vim-projectroot](https://github.com/dbakker/vim-projectroot)
+Requires vim-projectroot: https://github.com/dbakker/vim-projectroot
+
 More documentation to come as it takes a more concrete form.
