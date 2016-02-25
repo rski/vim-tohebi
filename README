@@ -1,3 +1,4 @@
 A vim plugin that discovers pylintrc files.
 
+Requires [vim-projectroot](https://github.com/dbakker/vim-projectroot)
 More documentation to come as it takes a more concrete form.
