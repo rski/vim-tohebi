@@ -18,7 +18,7 @@ if exists('g:loaded_tohebi') || &cp
 endif
 let g:loaded_tohebi = 1
 
-" TODO(rski) this needs to be discovered
+" projectroot#get returns nothing if no project is found
 let s:project_root = projectroot#get()
 
 " get the patterns
@@ -44,6 +44,17 @@ endif
 
 
 function! tohebi#getrc()
+
+  " get the global rc if vim doesn't start in a project
+  if s:project_root == ""
+    return g:tohebi_globalrc
+  else
+    return s:getprojectrc()
+  endif
+
+endfunction
+
+function! s:getprojectrc()
 python << EOF
 import vim
 import os
@@ -53,14 +64,19 @@ root = vim.eval('s:project_root')
 patterns = vim.eval('g:tohebi_patterns')
 
 # find the first file in the project root dir that matches any of the specified patterns
-rc = vim.eval('g:tohebi_globalrc')
 for pattern in patterns:
     for file in os.listdir(root):
         if fnmatch.fnmatch(file, pattern):
             rc = os.path.join(root, file)
+            vim.command("let s:projectfile = '%s'" % rc)
             break
-
-vim.command("let s:rc = '%s'" % rc)
 EOF
-return s:rc
+
+"fallback to the global if no file was found
+if exists('s:projectfile')
+  return s:projectfile
+else
+  return g:tohebi_globalrc
+endif
+
 endfunction
