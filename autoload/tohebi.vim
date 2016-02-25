@@ -18,7 +18,15 @@ if exists('g:loaded_tohebi') || &cp
 endif
 let g:loaded_tohebi = 1
 
+" TODO(rski) this needs to be discovered
+let s:project_root = '.'
+
+" get the patterns
 let s:default_patterns = ['.pylintrc']
+if !exists('g:tohebi_patterns')
+  let g:tohebi_patterns = s:default_patterns
+endif
+
 
 " find the fallback globalrc
 if !exists('g:tohebi_globalrc')
@@ -34,12 +42,6 @@ EOF
 
 endif
 
-if !exists('g:tohebi_patterns')
-  let g:tohebi_patterns = s:default_patterns
-endif
-
-" TODO(rski) this needs to be discovered
-let s:project_root = '.'
 
 function! tohebi#getrc()
 python << EOF
