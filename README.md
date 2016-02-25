@@ -16,4 +16,4 @@ Installing with pathogen:
 
 Installing with [Vundle](https://github.com/VundleVim/Vundle.vim):
 
-Add ``Bundle 'rski/vim-tohebi'`` to your ``~/.vimrc and then call `:BundleInstall`.
+Add `Bundle 'rski/vim-tohebi'` to your `~/.vimrc` and then call `:BundleInstall`.
