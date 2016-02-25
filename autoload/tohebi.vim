@@ -19,7 +19,7 @@ endif
 let g:loaded_tohebi = 1
 
 " TODO(rski) this needs to be discovered
-let s:project_root = '.'
+let s:project_root = fnamemodify('%', ':p:h')
 
 " get the patterns
 let s:default_patterns = ['.pylintrc']
