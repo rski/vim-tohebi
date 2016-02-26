@@ -50,7 +50,7 @@ endfunction
 
 function! s:FindRcInDir(dir)
 
-python3 << EOF
+python << EOF
 import vim
 import os
 import fnmatch
