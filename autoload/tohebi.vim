@@ -28,7 +28,7 @@ if !exists('g:tohebi_patterns')
 endif
 
 " get the home dir
-python << EOF
+python3 << EOF
 import vim
 import os
 home = os.path.expanduser("~")
@@ -50,7 +50,7 @@ endfunction
 
 function! s:FindRcInDir(dir)
 
-python << EOF
+python3 << EOF
 import vim
 import os
 import fnmatch
